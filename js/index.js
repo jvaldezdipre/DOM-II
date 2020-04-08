@@ -3,7 +3,7 @@
 //function to query select--------------
 const get = selector => document.querySelector(selector)
 
-//Mouseover and mouse out--------------------
+//Mouseover -----------------------------------------------------------------------
 const introImage = get('.intro-img')
 
 const newImage = () => {
@@ -11,12 +11,13 @@ const newImage = () => {
 }
 introImage.addEventListener('mouseover', newImage)
 
+//mouse out-----------------------------------------------------------------------
 const oldImage = () => {
   introImage.src = 'img/fun-bus.jpg'
 }
 introImage.addEventListener('mouseout', oldImage)
 
-// Keydown--------------------------------------
+// Keydown-------------------------------------------------------------------------
 const dontWant = document.querySelector('.remove-img')
 
 document.addEventListener('keydown', e => {
@@ -25,9 +26,45 @@ document.addEventListener('keydown', e => {
   }
 })
 
-// wheel--------------------------------------
+//Key Up--------------------------------------------------------------------------
+const dontWantP = document.querySelector('.remove-p')
+document.addEventListener('keyup', e => {
+  if (e.key === 'Enter') {
+    dontWantP.remove()
+  }
+})
 
-// dbclick--------------------------------------
+//selected-----------------------------------------------------------------------
+function logSelection(event) {
+  const log = document.querySelector('.log')
+  const selection = event.target.value.substring(
+    event.target.selectionStart,
+    event.target.selectionEnd
+  )
+  log.textContent = `You selected: ${selection}`
+}
+
+const input = document.querySelector('input')
+input.addEventListener('select', logSelection)
+
+// wheel--------------------------------------------------------------------------
+function zoom(event) {
+  event.preventDefault()
+
+  scale += event.deltaY * -0.01
+
+  // Restrict scale
+  scale = Math.min(Math.max(0.125, scale), 4)
+
+  // Apply scale transform
+  el.style.transform = `scale(${scale})`
+}
+
+let scale = 1
+const el = document.querySelector('.resize')
+el.onwheel = zoom
+
+// click------------------------------------------------------------------------
 const getRandomColor = () => {
   const chars = '0123456789ABCDEF'
   let color = '#'
@@ -45,7 +82,7 @@ pTags.forEach(pTag => {
   })
 })
 
-// drag/drop--------------------------------------
+// drag/drop----------------------------------------------------------------------
 let dragged
 
 pTags.forEach(pTag => {
@@ -125,13 +162,7 @@ document.addEventListener(
   false
 )
 
-// load--------------------------------------
-
-// focus--------------------------------------
-
-// resize--------------------------------------
-
-// scroll--------------------------------------
+// scroll--------------------------------------------------------------------------
 const picture = document.querySelectorAll('img')
 let blur = 0
 let lastKnownPosition = 0
@@ -147,4 +178,12 @@ window.addEventListener('scroll', e => {
   picture.forEach(pic => (pic.style.filter = `blur(${blur}px)`))
 })
 
-// select--------------------------------------
+// click--------------------------------------------------------------------------
+
+const buttons = document.querySelectorAll('.btn')
+
+buttons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    btn.textContent = 'I have been clicked'
+  })
+})
